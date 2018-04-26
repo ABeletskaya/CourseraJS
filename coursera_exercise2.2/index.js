@@ -2,34 +2,36 @@
  * @param {String[]} hashtags
  * @returns {String}
  */
-module.exports = function (hashtags) {
-    var obj = objHashtags(hashtags);
-    var arr = objKeysInArray(obj);
-    var string = arrayInSring(arr);
-    return string;
+module.exports = function (hashtags) {   
+    var arr = distinctFromArray(hashtags.map(toLowerCaseMap));    
+    return arrayInString(arr);
 };
 
-function objHashtags(hashtags) {
-    var obj = {};
+function toLowerCaseMap(string, index){
+    return string.toLowerCase();
+}
 
-    for (var i = 0; i < hashtags.length; i++) {
-        var prop = hashtags[i].toLowerCase();
-        if (obj[prop] === undefined) {
-            obj[prop] = true;
+function distinctFromArray(arr) {
+    var distinctArr = [];
+    distinctArr.push(arr[0]);
+    var isExist;
+    for (var i = 1; i < arr.length; i++) {
+        isExist = false;
+        var element = arr[i];
+        for (j = 0; j < distinctArr.length; j++) {
+            if (distinctArr[j] == element) {
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            distinctArr.push(element);
         }
     }
-    return obj;
+    return distinctArr;
 }
 
-function objKeysInArray(obj) {
-    var arr = [];
-    for (key in obj) {
-        arr.push(key);
-    }
-    return arr;
-}
-
-function arrayInSring(arr) {
+function arrayInString(arr) {
     var string = '';
     if (arr.length > 0) {
         string = arr.join(', ');
