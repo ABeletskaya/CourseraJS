@@ -10,8 +10,7 @@ module.exports = function (command) {
     var commandName = param[0];
 
     if (commandName === 'ADD') {
-        param.shift();
-        return addContact(param);
+        return addContact(param[1], param[2]);
     }
 
     if (commandName === 'SHOW') {
@@ -23,13 +22,13 @@ module.exports = function (command) {
     }
 };
 
-function addContact(arr) {
-    if (!phoneBook.hasOwnProperty(arr[0])) {
-        phoneBook[arr[0]] = arr[1];
+function addContact(name, phones) {
+    if (!phoneBook.hasOwnProperty(name)) {
+        phoneBook[name] = phones;
         return phoneBook;
     }
 
-    phoneBook[arr[0]] += "," + arr[1];
+    phoneBook[name] += "," + phones;
     return phoneBook;
 }
 
@@ -44,11 +43,10 @@ function showContacts() {
 }
 
 function removePhone(phone) {
-    var phones = [];
-    var isRemoved = false;
+    var contacts = [];
     for (var key in phoneBook) {
         if (phoneBook[key].indexOf(phone) != -1) {
-            var contacts = phoneBook[key].split(',')
+             contacts = phoneBook[key].split(',')
                 .filter(function (number) {
                     return number !== phone;
                 })
@@ -58,9 +56,8 @@ function removePhone(phone) {
             else {
                 phoneBook[key] = contacts[0];
             }
-            return isRemoved = true;
+            return true;
         }
     }
-
-    return isRemoved;
+    return false;
 }
