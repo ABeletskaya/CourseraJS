@@ -4,9 +4,10 @@
  */
 
 module.exports = function (date) {
-
     return {
+        innerDate: '',
         add: function (count, unit) {
+
             var objDate = new Date(Date.parse(date));
             checkParameters(count, unit);
             if (unit === 'years') {
@@ -26,7 +27,7 @@ module.exports = function (date) {
             if (unit === 'minutes') {
                 objDate.setMinutes(objDate.getMinutes() + count);
             }
-            date = dateToStringFormat(objDate);
+            this.innerDate = dateToStringFormat(objDate);
             return this;
         },
         subtract: function (count, unit) {
@@ -49,7 +50,7 @@ module.exports = function (date) {
             if (unit === 'minutes') {
                 objDate.setMinutes(objDate.getMinutes() - count);
             }
-            date = dateToStringFormat(objDate);
+            this.innerDate = dateToStringFormat(objDate);
             return this;
         }
     }
@@ -59,7 +60,7 @@ function checkParameters(count, unit) {
     var regExCount = /^\d+$/;
     var regExUnits = /^years$|^months$|^days$|^hours$|^minutes$/;
     if (count.toString().match(regExCount) === null
-            || unit.match(regExUnits) === null) {
+        || unit.match(regExUnits) === null) {
         throw new TypeError('Неверный тип параметров');
     }
 }
