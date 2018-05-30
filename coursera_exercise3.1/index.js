@@ -5,10 +5,10 @@
 
 module.exports = function (date) {
     return {
-        innerDate: '',
+        date,
         add: function (count, unit) {
 
-            var objDate = new Date(Date.parse(date));
+            var objDate = new Date(Date.parse(this.date));
             checkParameters(count, unit);
             if (unit === 'years') {
                 objDate.setFullYear(objDate.getFullYear() + count);
@@ -27,11 +27,11 @@ module.exports = function (date) {
             if (unit === 'minutes') {
                 objDate.setMinutes(objDate.getMinutes() + count);
             }
-            this.innerDate = dateToStringFormat(objDate);
+            this.date = dateToStringFormat(objDate);
             return this;
         },
         subtract: function (count, unit) {
-            var objDate = new Date(Date.parse(date));
+            var objDate = new Date(Date.parse(this.date));
             checkParameters(count, unit);
             if (unit === 'years') {
                 objDate.setFullYear(objDate.getFullYear() - count);
@@ -50,7 +50,7 @@ module.exports = function (date) {
             if (unit === 'minutes') {
                 objDate.setMinutes(objDate.getMinutes() - count);
             }
-            this.innerDate = dateToStringFormat(objDate);
+            this.date = dateToStringFormat(objDate);
             return this;
         }
     }
@@ -68,7 +68,7 @@ function checkParameters(count, unit) {
 function dateToStringFormat(objDate) {
     // format "2017-05-16 13:45"
     var year = objDate.getFullYear();
-    var month = numTo2DigitFormat(objDate.getMonth());
+    var month = numTo2DigitFormat(objDate.getMonth()+1);
     var day = numTo2DigitFormat(objDate.getDate());
     var hour = numTo2DigitFormat(objDate.getHours());
     var minutes = numTo2DigitFormat(objDate.getMinutes());
